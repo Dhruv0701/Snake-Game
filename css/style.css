@@ -33,6 +33,14 @@
     font-weight: bold;
     font-family: 'Splash', 'cursive';
 }
+#hiscoreBox{
+    position: absolute;
+    top: 9px;
+    left: 80px;
+    font-size: 45px;
+    font-weight: bold;
+    font-family: 'Splash', 'cursive';
+}
 
 .head{
     background: linear-gradient(white, red);

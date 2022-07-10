@@ -1,9 +1,9 @@
 //Constants & Variables
 let inputDir = {x: 0, y: 0};
-let foodSound = new Audio('food.mp3');
-let gameOverSound = new Audio('over.mp3');
-let moveSound = new Audio('move.mp3');
-let musicSound = new Audio('theme.mp3');
+let foodSound = new Audio('bgmusic/food.mp3');
+let gameOverSound = new Audio('bgmusic/over.mp3');
+let moveSound = new Audio('bgmusic/move.mp3');
+let musicSound = new Audio('bgmusic/theme.mp3');
 let score = 0;
 let speed = 5;
 let lastPaintTime = 0;
@@ -16,7 +16,7 @@ food = {x: 6, y: 7};
 
 function main(ctime) {
     window.requestAnimationFrame(main);
-    //console.log(ctime)
+    console.log(ctime)
     if((ctime - lastPaintTime)/1000 < 1/speed){
         return;
     }
@@ -43,13 +43,18 @@ function main(ctime) {
         inputDir = { x: 0, y: 0};
         alert("Game Over!! Press any key to play Restart");
         snakeArray = [ {x: 13, y: 15} ];
-       // musicSound.play();
+        musicSound.play();
         score = 0;
     } 
     // If food is eaten increase the score and regenrate food
     if(snakeArray[0].y === food.y && snakeArray[0].x === food.x){
         foodSound.play();
         score += 1;
+            if(score>hiscoreval){
+                hiscoreval = score;
+                localStorage.setItem("hiscore", JSON.stringify(hiscoreval))
+                hiscoreBox.innerHTML = "HiSocre: " + hiscoreval;
+            }
         scoreBox.innerHTML = "Score: " + score;
         snakeArray.unshift({x: snakeArray[0].x + inputDir.x, y: snakeArray[0].y + inputDir.y});
         let a = 2;
@@ -91,9 +96,21 @@ function main(ctime) {
 
 
 // Main logic begins 
+
+let hiscore = localStorage.getItem("hiscore")
+    if (hiscore === null){
+    hiscoreval = 0;
+    localStorage.setItem("hiscore", JSON.stringify(hiscoreval))
+    }
+    else{
+        hiscoreval = JSON.parse(hiscore);
+        hiscoreBox.innerHTML = "HiSocre: " + hiscore;
+    }
 window.requestAnimationFrame(main);
+
 window.addEventListener('keydown', e=>{
     inputDir = {x: 0, y: 1} //Start the game
+    musicSound.play();
     moveSound.play();
     switch (e.key) {
         case "ArrowUp":
